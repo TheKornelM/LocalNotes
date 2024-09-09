@@ -1,3 +1,5 @@
+"use strict";
+
 export default function readNotes() {
     // Retrieve the stored notes (as a JSON string) from localStorage
     const notes = localStorage.getItem('notes');

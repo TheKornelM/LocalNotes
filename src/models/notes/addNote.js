@@ -1,9 +1,9 @@
 "use strict";
+import readNotes from "./readNotes.js"
 
-export default function storeNotes(newNote) {
+export default function addNote(newNote) {
     // Retrieve current notes from localStorage
     const notes = readNotes();
-    
 
     // Add the new note to the notes array
     notes.push(newNote);

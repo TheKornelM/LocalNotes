@@ -1,0 +1,110 @@
+<html>
+
+</html>
+
+<head>
+    <script>
+        "use strict";
+
+        //import readNotes from "./src/notes/readNotes.js";
+        //import addNote from "./src/notes/addNote.js";
+        "use strict";
+
+        function addNote(newNote) {
+            // Retrieve current notes from localStorage
+            const notes = readNotes();
+
+            // Add the new note to the notes array
+            notes.push(newNote);
+
+            // Save the updated notes array back to localStorage as a JSON string
+            localStorage.setItem('notes', JSON.stringify(notes));
+        }
+
+        function readNotes() {
+            // Retrieve the stored notes (as a JSON string) from localStorage
+            const notes = localStorage.getItem('notes');
+
+            // If there are no notes stored, return an empty array
+            return notes ? JSON.parse(notes) : [];
+        }
+
+        // Method to render notes to the "note-content" div
+        function renderNotes() {
+            const notes = readNotes();
+            const noteContentDiv = document.getElementById('notes');
+
+            // Clear the div before rendering new content
+            noteContentDiv.innerHTML = '';
+
+            // Loop through each note and create HTML structure
+            notes.forEach((note, index) => {
+                // Create a new div for each note
+                const noteDiv = document.createElement('div');
+                noteDiv.classList.add('note');
+
+                // Create the title element
+                const id = document.createElement('div');
+                id.classList.add('note-id');
+                id.textContent = "("+index+") ";
+
+                const titleDiv = document.createElement('div');
+                titleDiv.classList.add('note-title');
+                titleDiv.textContent = note.title;
+
+                // Create the content element
+                const contentDiv = document.createElement('div');
+                contentDiv.classList.add('note-body');
+                contentDiv.textContent = note;
+
+                // Append title and content to the note div
+                noteDiv.appendChild(id);
+                noteDiv.appendChild(titleDiv);
+                noteDiv.appendChild(contentDiv);
+
+                // Append the note div to the main note-content div
+                noteContentDiv.appendChild(noteDiv);
+            });
+        }
+
+        // Initial render of notes when page loads
+        document.addEventListener('DOMContentLoaded', function () {
+            renderNotes();
+        });
+
+        const allNotes = readNotes();
+        console.log(allNotes);
+
+        function add(content) {
+            addNote(content);
+        }
+    </script>
+    <script type="module">
+
+
+    </script>
+</head>
+
+<body>  
+    <form>
+    <h1>Your notes</h1>
+    <div id="notes"></div>
+    <h1>Add note</h1>
+    <textarea style="width: 30%; height:30%" id="note-content"></textarea>
+    <br>    
+    <input type="submit" onclick="add(document.getElementById('note-content').value); renderNotes()" value="Send"
+        style="width:10%; height:10%"></input>
+    </form>
+    <h1>Modify note</h1>
+    ID:
+    <input id="modified-note">
+    <h2>Content</h2>
+    <form>
+        <textarea style="width: 30%; height:30%" id="note-content"></textarea>
+        <br>
+        <input type="submit" onclick="add(document.getElementById('note-content').value); renderNotes()" value="Update"
+            style="width:10%; height:10%"></input>
+        </form>
+</body>
+
+</html>
